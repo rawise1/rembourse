@@ -1,0 +1,4 @@
+Host github-rawise1
+    HostName github.com
+    User git
+    IdentityFile C:/Users/saadm/.ssh/id_rawise1
