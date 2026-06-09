@@ -23,7 +23,8 @@
       "Bash(gh auth:*)",
       "Bash(gh run:*)",
       "Bash(gh repo:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(git rev-parse *)"
     ]
   }
 }
